@@ -23,6 +23,14 @@ public class VehicleService {
 		return vehicleRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
 	}
 
+	public List<Vehicle> getVehiclesByMake(String make) {
+		return vehicleRepository.findByMake(make);
+	}
+
+	public List<VehicleDTO> getVehiclesDTOByMake(String make) {
+		return vehicleRepository.findByMake(make).stream().map(this::convertToDTO).collect(Collectors.toList());
+	}
+
 	private VehicleDTO convertToDTO(Vehicle vehicle) {
 		VehicleDTO dto = new VehicleDTO();
 		dto.setReg(vehicle.getReg());

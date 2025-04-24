@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -15,17 +16,22 @@ import java.util.List;
 @RequestMapping("/api/vehicle")
 @CrossOrigin(origins = "*")
 public class VehicleController {
-    
-    @Autowired
-    private VehicleService vehicleService;
-    
-    @GetMapping("/all")
-    public List<VehicleDTO> getAllVehicles() {
-        return vehicleService.getAllVehiclesDTO();
-    }
-    
-    @GetMapping("/raw")
-    public List<Vehicle> getAllRawVehicles() {
-        return vehicleService.getAllVehicles();
-    }
+
+	@Autowired
+	private VehicleService vehicleService;
+
+	@GetMapping("/all")
+	public List<VehicleDTO> getAllVehicles() {
+		return vehicleService.getAllVehiclesDTO();
+	}
+
+	@GetMapping("/raw")
+	public List<Vehicle> getAllRawVehicles() {
+		return vehicleService.getAllVehicles();
+	}
+
+	@GetMapping
+	public List<VehicleDTO> getVehiclesByMake(@RequestParam String make) {
+		return vehicleService.getVehiclesDTOByMake(make);
+	}
 }
