@@ -31,7 +31,7 @@ public class VehicleService {
 		return vehicleRepository.findByMake(make).stream().map(this::convertToDTO).collect(Collectors.toList());
 	}
 
-	private VehicleDTO convertToDTO(Vehicle vehicle) {
+	public VehicleDTO convertToDTO(Vehicle vehicle) {
 		VehicleDTO dto = new VehicleDTO();
 		dto.setReg(vehicle.getReg());
 		dto.setMake(vehicle.getMake());
@@ -64,6 +64,40 @@ public class VehicleService {
 		}
 
 		return dto;
+	}
+	
+	public Vehicle createVehicle(VehicleDTO vehicleDTO) {
+	    // Validate required attributes
+	    if (vehicleDTO.getReg() == null || vehicleDTO.getReg().trim().isEmpty()) {
+	        throw new IllegalArgumentException("Vehicle registration (reg) must be provided");
+	    }
+	    if (vehicleDTO.getMake() == null || vehicleDTO.getMake().trim().isEmpty()) {
+	        throw new IllegalArgumentException("Vehicle make must be provided");
+	    }
+	    if (vehicleDTO.getModel() == null || vehicleDTO.getModel().trim().isEmpty()) {
+	        throw new IllegalArgumentException("Vehicle model must be provided");
+	    }
+
+	    // Check for not allowed attributes
+	    if (vehicleDTO.getOwner() != null) {
+	        throw new IllegalArgumentException("Owner should not be provided in the request");
+	    }
+	    if (vehicleDTO.getMechanic() != null) {
+	        throw new IllegalArgumentException("Mechanic should not be provided in the request");
+	    }
+
+	    // Check if a vehicle with this reg already exists
+	    if (vehicleRepository.findByReg(vehicleDTO.getReg()) != null) {
+	        throw new IllegalArgumentException("Vehicle with registration " + vehicleDTO.getReg() + " already exists");
+	    }
+
+	    // Create and save the new vehicle
+	    Vehicle vehicle = new Vehicle();
+	    vehicle.setReg(vehicleDTO.getReg());
+	    vehicle.setMake(vehicleDTO.getMake());
+	    vehicle.setModel(vehicleDTO.getModel());
+	    
+	    return vehicleRepository.save(vehicle);
 	}
 
 }

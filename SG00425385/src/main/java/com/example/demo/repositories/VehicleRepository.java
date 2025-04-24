@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
 	List<Vehicle> findByMake(String make);
+	Vehicle findByReg(String reg);
+
 }
