@@ -77,23 +77,23 @@ public class VehicleController {
 			// Check for not allowed attributes
 			if (requestBody.containsKey("id")) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-						.body("id should not be provided in the request");
+						.body("id attribute should not be provided in the request");
 			}
 			if (requestBody.containsKey("name")) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-						.body("name should not be provided in the request");
+						.body("name attribute should not be provided in the request");
 			}
 			if (requestBody.containsKey("salary")) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-						.body("salary should not be provided in the request");
+						.body("salary attribute should not be provided in the request");
 			}
 			if (requestBody.containsKey("garage")) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-						.body("garage should not be provided in the request");
+						.body("garage attribute should not be provided in the request");
 			}
 			if (requestBody.containsKey("vehicles")) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-						.body("vehicles should not be provided in the request");
+						.body("vehicles attribute should not be provided in the request");
 			}
 
 			// Get the mid value
