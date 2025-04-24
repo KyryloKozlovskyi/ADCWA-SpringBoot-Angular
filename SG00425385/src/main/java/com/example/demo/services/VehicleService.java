@@ -67,6 +67,18 @@ public class VehicleService {
 	}
 	
 	public Vehicle createVehicle(VehicleDTO vehicleDTO) {
+	    // Check for not allowed attributes
+	    if (vehicleDTO.getOwner() != null) {
+	        throw new IllegalArgumentException("Owner should not be provided in the request");
+	    }
+	    if (vehicleDTO.getMechanic() != null) {
+	        throw new IllegalArgumentException("Mechanic should not be provided in the request");
+	    }
+	    
+	    // Check for id attribute - need to extract it from the JSON
+	    // Since VehicleDTO doesn't have an id field, we need to use reflection or ensure
+	    // the id is not in the incoming JSON through controller validation
+	    
 	    // Validate required attributes
 	    if (vehicleDTO.getReg() == null || vehicleDTO.getReg().trim().isEmpty()) {
 	        throw new IllegalArgumentException("Vehicle registration (reg) must be provided");
@@ -76,14 +88,6 @@ public class VehicleService {
 	    }
 	    if (vehicleDTO.getModel() == null || vehicleDTO.getModel().trim().isEmpty()) {
 	        throw new IllegalArgumentException("Vehicle model must be provided");
-	    }
-
-	    // Check for not allowed attributes
-	    if (vehicleDTO.getOwner() != null) {
-	        throw new IllegalArgumentException("Owner should not be provided in the request");
-	    }
-	    if (vehicleDTO.getMechanic() != null) {
-	        throw new IllegalArgumentException("Mechanic should not be provided in the request");
 	    }
 
 	    // Check if a vehicle with this reg already exists
@@ -99,5 +103,6 @@ public class VehicleService {
 	    
 	    return vehicleRepository.save(vehicle);
 	}
+
 
 }
