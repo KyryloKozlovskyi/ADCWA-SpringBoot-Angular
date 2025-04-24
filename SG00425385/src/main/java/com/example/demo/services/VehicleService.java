@@ -81,13 +81,13 @@ public class VehicleService {
 	    
 	    // Validate required attributes
 	    if (vehicleDTO.getReg() == null || vehicleDTO.getReg().trim().isEmpty()) {
-	        throw new IllegalArgumentException("Vehicle registration (reg) must be provided");
+	        throw new IllegalArgumentException("Registration (reg) must be provided");
 	    }
 	    if (vehicleDTO.getMake() == null || vehicleDTO.getMake().trim().isEmpty()) {
-	        throw new IllegalArgumentException("Vehicle make must be provided");
+	        throw new IllegalArgumentException("Make must be provided");
 	    }
 	    if (vehicleDTO.getModel() == null || vehicleDTO.getModel().trim().isEmpty()) {
-	        throw new IllegalArgumentException("Vehicle model must be provided");
+	        throw new IllegalArgumentException("Model must be provided");
 	    }
 
 	    // Check if a vehicle with this reg already exists
