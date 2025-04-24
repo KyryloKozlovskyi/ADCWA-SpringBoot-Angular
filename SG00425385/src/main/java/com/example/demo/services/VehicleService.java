@@ -92,7 +92,7 @@ public class VehicleService {
 
 	    // Check if a vehicle with this reg already exists
 	    if (vehicleRepository.findByReg(vehicleDTO.getReg()) != null) {
-	        throw new IllegalArgumentException("Vehicle with registration " + vehicleDTO.getReg() + " already exists");
+	        throw new IllegalArgumentException("Registration " + vehicleDTO.getReg() + " already exists");
 	    }
 
 	    // Create and save the new vehicle
