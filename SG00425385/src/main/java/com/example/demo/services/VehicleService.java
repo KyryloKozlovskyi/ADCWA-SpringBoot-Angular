@@ -114,7 +114,7 @@ public class VehicleService {
 		// Check if vehicle with specified reg exists
 		Vehicle vehicle = vehicleRepository.findByReg(reg);
 		if (vehicle == null) {
-			throw new IllegalArgumentException("Vehicle with registration " + reg + " doesn't exist");
+			throw new IllegalArgumentException("Vehicle reg " + reg + " doesn't exist");
 		}
 
 		// Get the mechanic by mid
