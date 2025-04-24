@@ -68,12 +68,11 @@ public class VehicleController {
 	public ResponseEntity<?> updateVehicleMechanic(@PathVariable String reg,
 			@RequestBody Map<String, Object> requestBody) {
 		try {
-			// Check for required attribute
+	        // Check for required attribute
 			if (!requestBody.containsKey("mid")) {
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-						.body("mid must be present in the request");
+			    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			            .body("mid must be present in the request");
 			}
-
 			// Check for not allowed attributes
 			if (requestBody.containsKey("id")) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
