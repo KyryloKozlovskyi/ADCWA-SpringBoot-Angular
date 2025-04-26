@@ -24,12 +24,20 @@ export class VehicleUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // First, check if we have a reg parameter in the URL (for backward compatibility)
     const reg = this.route.snapshot.paramMap.get('reg');
+    
     if (reg) {
       this.loadVehicle(reg);
     } else {
-      this.errorMessage = 'No vehicle registration provided';
-      this.loading = false;
+      // If not, check if we have a selected vehicle in the service
+      const selectedReg = this.vehicleService.getSelectedVehicleReg();
+      if (selectedReg) {
+        this.loadVehicle(selectedReg);
+      } else {
+        this.errorMessage = 'No vehicle registration provided';
+        this.loading = false;
+      }
     }
   }
 

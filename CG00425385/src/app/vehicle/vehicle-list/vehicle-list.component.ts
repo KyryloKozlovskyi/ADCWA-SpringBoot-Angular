@@ -40,6 +40,9 @@ export class VehicleListComponent implements OnInit {
   }
 
   onUpdate(reg: string): void {
-    this.router.navigate(['/vehicles/update', reg]);
+    // Store the selected vehicle reg in the service
+    this.vehicleService.setSelectedVehicleReg(reg);
+    // Navigate to the vehicle details page without including reg in URL
+    this.router.navigate(['/vehicleDetails']);
   }
 }

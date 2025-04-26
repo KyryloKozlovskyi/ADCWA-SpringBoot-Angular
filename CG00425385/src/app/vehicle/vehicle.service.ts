@@ -28,6 +28,7 @@ export interface Vehicle {
 })
 export class VehicleService {
   private baseUrl = 'http://localhost:8080/api/vehicle';
+  private selectedVehicleReg: string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -62,6 +63,15 @@ export class VehicleService {
     return this.http
       .put(`${this.baseUrl}/${reg}`, { mid })
       .pipe(catchError(this.handleError));
+  }
+
+  // Add methods to store and retrieve the selected vehicle reg
+  setSelectedVehicleReg(reg: string): void {
+    this.selectedVehicleReg = reg;
+  }
+
+  getSelectedVehicleReg(): string | null {
+    return this.selectedVehicleReg;
   }
 
   private handleError(error: HttpErrorResponse) {

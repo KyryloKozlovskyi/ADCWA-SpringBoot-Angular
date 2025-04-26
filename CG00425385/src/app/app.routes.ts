@@ -5,6 +5,7 @@ import { VehicleUpdateComponent } from './vehicle/vehicle-update/vehicle-update.
 export const routes: Routes = [
   { path: '', redirectTo: 'vehicles', pathMatch: 'full' },
   { path: 'vehicles', component: VehicleListComponent },
-  { path: 'vehicles/update/:reg', component: VehicleUpdateComponent },
+
+  { path: 'vehicleDetails', component: VehicleUpdateComponent },
   { path: '**', redirectTo: 'vehicles' },
 ];
