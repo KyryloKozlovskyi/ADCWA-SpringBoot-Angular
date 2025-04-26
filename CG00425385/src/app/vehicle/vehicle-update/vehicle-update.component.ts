@@ -26,7 +26,7 @@ export class VehicleUpdateComponent implements OnInit {
   ngOnInit(): void {
     // First, check if we have a reg parameter in the URL (for backward compatibility)
     const reg = this.route.snapshot.paramMap.get('reg');
-    
+
     if (reg) {
       this.loadVehicle(reg);
     } else {
@@ -61,8 +61,8 @@ export class VehicleUpdateComponent implements OnInit {
     if (!this.vehicle) return;
 
     this.loading = true;
-    this.errorMessage = '';  // Clear any previous error message
-    
+    this.errorMessage = ''; // Clear any previous error message
+
     this.vehicleService
       .updateVehicleMechanic(this.vehicle.reg, this.newMid)
       .subscribe({

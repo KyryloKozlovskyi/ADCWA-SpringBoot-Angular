@@ -1,12 +1,28 @@
-<div *ngIf="loading">Loading...</div>
+<div *ngIf="loading" class="loading">Loading...</div>
 
-<div *ngIf="errorMessage" class="error">
-  <p>Error: {{ errorMessage }}</p>
-  <button (click)="cancel()">Return to Vehicle List</button>
+<div *ngIf="errorMessage" class="error-container">
+  <div class="error-message">
+    <p><strong>Error:</strong> {{ errorMessage }}</p>
+    <button (click)="cancel()" class="error-button">Return to Vehicle List</button>
+  </div>
 </div>
 
 <div *ngIf="!loading && !errorMessage && vehicle">
   <h2>Update Vehicle</h2>
+  <div class="vehicle-details">
+    <p><strong>Registration:</strong> {{ vehicle.reg }}</p>
+    <p><strong>Make:</strong> {{ vehicle.make }}</p>
+    <p><strong>Model:</strong> {{ vehicle.model }}</p>
+    <p><strong>Owner:</strong> {{ vehicle.owner.name }}</p>
+  </div>
 
-  <!-- Rest of template remains unchanged -->
+  <div class="form-group">
+    <label for="mechanic">Assign Mechanic (ID):</label>
+    <input type="text" id="mechanic" [(ngModel)]="newMid" class="form-control" placeholder="Enter mechanic ID">
+  </div>
+
+  <div class="button-group">
+    <button (click)="updateVehicle()" class="update-button">Update</button>
+    <button (click)="cancel()" class="cancel-button">Cancel</button>
+  </div>
 </div>
