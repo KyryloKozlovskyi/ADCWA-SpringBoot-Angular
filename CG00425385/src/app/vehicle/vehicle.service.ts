@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 export interface Vehicle {
   reg: string;
@@ -30,7 +31,10 @@ export class VehicleService {
   private baseUrl = 'http://localhost:8080/api/vehicle';
   private selectedVehicleReg: string | null = null;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   getAllVehicles(): Observable<Vehicle[]> {
     return this.http
@@ -74,8 +78,30 @@ export class VehicleService {
     return this.selectedVehicleReg;
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError = (error: HttpErrorResponse) => {
     console.error('API Error:', error);
+    
+    let errorMessage = 'An unknown error occurred';
+    let statusCode = error.status;
+
+    if (error.status === 0) {
+      errorMessage = 'Cannot connect to server. The server may be offline or unavailable.';
+      statusCode = 500; // Use 500 for server communication issues
+    } else if (error.error && typeof error.error === 'string') {
+      errorMessage = error.error;
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
+    // Navigate to error page
+    this.router.navigate(['/error'], { 
+      queryParams: { 
+        message: errorMessage,
+        status: statusCode
+      }
+    });
+    
+    // Return something for the observable chain
     return throwError(() => error);
   }
 }

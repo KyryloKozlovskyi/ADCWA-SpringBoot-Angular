@@ -14,7 +14,6 @@ import { Vehicle, VehicleService } from '../vehicle.service';
 export class VehicleUpdateComponent implements OnInit {
   vehicle: Vehicle | null = null;
   newMid: string = '';
-  errorMessage: string = '';
   loading: boolean = true;
 
   constructor(
@@ -24,9 +23,9 @@ export class VehicleUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // First, check if we have a reg parameter in the URL (for backward compatibility)
+    // First, check if we have a reg parameter in the URL
     const reg = this.route.snapshot.paramMap.get('reg');
-
+    
     if (reg) {
       this.loadVehicle(reg);
     } else {
@@ -35,8 +34,13 @@ export class VehicleUpdateComponent implements OnInit {
       if (selectedReg) {
         this.loadVehicle(selectedReg);
       } else {
-        this.errorMessage = 'No vehicle registration provided';
-        this.loading = false;
+        // Navigate to error page if no registration provided
+        this.router.navigate(['/error'], { 
+          queryParams: { 
+            message: 'No vehicle registration provided',
+            status: 400
+          }
+        });
       }
     }
   }
@@ -49,11 +53,8 @@ export class VehicleUpdateComponent implements OnInit {
           this.newMid = vehicle.mechanic.mid;
         }
         this.loading = false;
-      },
-      error: (err) => {
-        this.errorMessage = err.error || 'Error loading vehicle details';
-        this.loading = false;
-      },
+      }
+      // Error handling is now done in the service
     });
   }
 
@@ -61,19 +62,15 @@ export class VehicleUpdateComponent implements OnInit {
     if (!this.vehicle) return;
 
     this.loading = true;
-    this.errorMessage = ''; // Clear any previous error message
-
+    
     this.vehicleService
       .updateVehicleMechanic(this.vehicle.reg, this.newMid)
       .subscribe({
         next: () => {
           this.router.navigate(['/vehicles']);
         },
-        error: (err) => {
-          // Display the exact error message from the server
-          this.errorMessage = err.error || 'Error updating vehicle';
-          this.loading = false;
-        },
+        // The error handling is now happening in the service's handleError method
+        // which will redirect to the error page
       });
   }
 

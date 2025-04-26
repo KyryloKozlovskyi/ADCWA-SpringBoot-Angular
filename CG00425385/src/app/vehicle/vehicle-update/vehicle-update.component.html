@@ -1,13 +1,6 @@
 <div *ngIf="loading" class="loading">Loading...</div>
 
-<div *ngIf="errorMessage" class="error-container">
-  <div class="error-message">
-    <p><strong>Error:</strong> {{ errorMessage }}</p>
-    <button (click)="cancel()" class="error-button">Return to Vehicle List</button>
-  </div>
-</div>
-
-<div *ngIf="!loading && !errorMessage && vehicle">
+<div *ngIf="!loading && vehicle">
   <h2>Update Vehicle</h2>
   <div class="vehicle-details">
     <p><strong>Registration:</strong> {{ vehicle.reg }}</p>
