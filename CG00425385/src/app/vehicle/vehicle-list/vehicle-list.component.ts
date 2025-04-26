@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Vehicle, VehicleService } from '../vehicle.service';
 
 @Component({
@@ -11,21 +12,34 @@ import { Vehicle, VehicleService } from '../vehicle.service';
 })
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[] = [];
+  loading: boolean = true;
+  errorMessage: string = '';
 
-  constructor(private vehicleService: VehicleService) {}
+  constructor(private vehicleService: VehicleService, private router: Router) {}
 
   ngOnInit(): void {
+    this.loadVehicles();
+  }
+
+  loadVehicles(): void {
+    this.loading = true;
+    this.errorMessage = '';
+
     this.vehicleService.getAllVehicles().subscribe({
       next: (data) => {
         this.vehicles = data;
-        console.log('Vehicles loaded:', this.vehicles);
+        this.loading = false;
       },
-      error: (err) => console.error('Error loading vehicles:', err),
+      error: (err) => {
+        this.errorMessage =
+          'Error loading vehicles: ' +
+          (err.error || err.message || 'Unknown error');
+        this.loading = false;
+      },
     });
   }
 
   onUpdate(reg: string): void {
-    alert(`Update clicked for vehicle with registration: ${reg}`);
-    // To be implemented in part 5.2
+    this.router.navigate(['/vehicles/update', reg]);
   }
 }
