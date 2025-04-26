@@ -15,13 +15,17 @@ export class VehicleListComponent implements OnInit {
   constructor(private vehicleService: VehicleService) {}
 
   ngOnInit(): void {
-    this.vehicleService
-      .getAllVehicles()
-      .subscribe((data) => (this.vehicles = data));
+    this.vehicleService.getAllVehicles().subscribe({
+      next: (data) => {
+        this.vehicles = data;
+        console.log('Vehicles loaded:', this.vehicles);
+      },
+      error: (err) => console.error('Error loading vehicles:', err),
+    });
   }
 
-  onUpdate(reg: string) {
-    // To be implemented later
-    alert(`Update clicked for: ${reg}`);
+  onUpdate(reg: string): void {
+    alert(`Update clicked for vehicle with registration: ${reg}`);
+    // To be implemented in part 5.2
   }
 }
