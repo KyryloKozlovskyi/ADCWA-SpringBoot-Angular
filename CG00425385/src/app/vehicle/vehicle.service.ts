@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export interface Vehicle {
   reg: string;
@@ -31,6 +32,40 @@ export class VehicleService {
   constructor(private http: HttpClient) {}
 
   getAllVehicles(): Observable<Vehicle[]> {
-    return this.http.get<Vehicle[]>(`${this.baseUrl}/all`);
+    return this.http
+      .get<Vehicle[]>(`${this.baseUrl}/all`)
+      .pipe(catchError(this.handleError));
+  }
+
+  getVehicleByReg(reg: string): Observable<Vehicle> {
+    // Since there's no direct endpoint for getting a single vehicle,
+    // we'll get all vehicles and filter by reg
+    return new Observable<Vehicle>((observer) => {
+      this.getAllVehicles().subscribe({
+        next: (vehicles) => {
+          const vehicle = vehicles.find((v) => v.reg === reg);
+          if (vehicle) {
+            observer.next(vehicle);
+            observer.complete();
+          } else {
+            observer.error({
+              error: `Vehicle with registration ${reg} not found`,
+            });
+          }
+        },
+        error: (err) => observer.error(err),
+      });
+    });
+  }
+
+  updateVehicleMechanic(reg: string, mid: string): Observable<any> {
+    return this.http
+      .put(`${this.baseUrl}/${reg}`, { mid })
+      .pipe(catchError(this.handleError));
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('API Error:', error);
+    return throwError(() => error);
   }
 }
