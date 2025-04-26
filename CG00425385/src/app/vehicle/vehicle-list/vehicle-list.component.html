@@ -1,0 +1,35 @@
+<h2>Vehicle List</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Reg</th>
+      <th>Make</th>
+      <th>Model</th>
+      <th>Owner ID</th>
+      <th>Owner Name</th>
+      <th>Mechanic ID</th>
+      <th>Mechanic Name</th>
+      <th>Mechanic Salary</th>
+      <th>Garage ID</th>
+      <th>Garage Location</th>
+      <th>Garage Budget</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let v of vehicles">
+      <td>{{ v.reg }}</td>
+      <td>{{ v.make }}</td>
+      <td>{{ v.model }}</td>
+      <td>{{ v.ownerCid }}</td>
+      <td>{{ v.ownerName }}</td>
+      <td>{{ v.mechanicMid }}</td>
+      <td>{{ v.mechanicName }}</td>
+      <td>{{ v.mechanicSalary }}</td>
+      <td>{{ v.garageGid }}</td>
+      <td>{{ v.garageLocation }}</td>
+      <td>{{ v.garageBudget }}</td>
+      <td><button (click)="onUpdate(v.reg)">Update</button></td>
+    </tr>
+  </tbody>
+</table>
