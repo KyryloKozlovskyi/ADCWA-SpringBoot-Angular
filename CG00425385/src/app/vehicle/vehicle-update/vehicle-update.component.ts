@@ -61,6 +61,8 @@ export class VehicleUpdateComponent implements OnInit {
     if (!this.vehicle) return;
 
     this.loading = true;
+    this.errorMessage = '';  // Clear any previous error message
+    
     this.vehicleService
       .updateVehicleMechanic(this.vehicle.reg, this.newMid)
       .subscribe({
@@ -68,6 +70,7 @@ export class VehicleUpdateComponent implements OnInit {
           this.router.navigate(['/vehicles']);
         },
         error: (err) => {
+          // Display the exact error message from the server
           this.errorMessage = err.error || 'Error updating vehicle';
           this.loading = false;
         },
