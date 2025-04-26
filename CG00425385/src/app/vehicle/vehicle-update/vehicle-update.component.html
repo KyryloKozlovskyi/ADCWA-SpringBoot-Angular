@@ -1,0 +1,50 @@
+<div *ngIf="loading">Loading...</div>
+
+<div *ngIf="errorMessage" class="error">
+  <p>Error: {{ errorMessage }}</p>
+  <button (click)="cancel()">Return to Vehicle List</button>
+</div>
+
+<div *ngIf="!loading && !errorMessage && vehicle">
+  <h2>Update Vehicle</h2>
+
+  <table>
+    <tr>
+      <td>Registration:</td>
+      <td>
+        <strong>{{ vehicle.reg }}</strong>
+      </td>
+    </tr>
+    <tr>
+      <td>Make:</td>
+      <td>{{ vehicle.make }}</td>
+    </tr>
+    <tr>
+      <td>Model:</td>
+      <td>{{ vehicle.model }}</td>
+    </tr>
+    <tr>
+      <td>Current Mechanic ID:</td>
+      <td>{{ vehicle.mechanic?.mid || "None" }}</td>
+    </tr>
+    <tr>
+      <td>Current Mechanic Name:</td>
+      <td>{{ vehicle.mechanic?.name || "None" }}</td>
+    </tr>
+    <tr>
+      <td>Garage Location:</td>
+      <td>{{ vehicle.mechanic?.garage?.location || "None" }}</td>
+    </tr>
+    <tr>
+      <td>New Mechanic ID:</td>
+      <td>
+        <input type="text" [(ngModel)]="newMid" />
+      </td>
+    </tr>
+  </table>
+
+  <div class="buttons">
+    <button (click)="updateVehicle()">Update</button>
+    <button (click)="cancel()">Cancel</button>
+  </div>
+</div>
