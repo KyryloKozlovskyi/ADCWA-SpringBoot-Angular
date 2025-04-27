@@ -11,31 +11,74 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class that handles the logic for vehicle operations. This class acts
+ * as an intermediate layer between the controller and repositories.
+ */
 @Service
 public class VehicleService {
 
+	/**
+	 * Repository for accessing vehicle data in the database. Autowired by Spring to
+	 * inject the repository implementation.
+	 */
 	@Autowired
 	private VehicleRepository vehicleRepository;
 
+	/**
+	 * Repository for accessing mechanic data in the database. Autowired by Spring
+	 * to inject the repository implementation.
+	 */
 	@Autowired
 	private MechanicRepository mechanicRepository;
 
+	/**
+	 * Retrieves all vehicles from the database.
+	 * 
+	 * @return A list of all Vehicle entities
+	 */
 	public List<Vehicle> getAllVehicles() {
 		return vehicleRepository.findAll();
 	}
 
+	/**
+	 * Retrieves all vehicles from the database and converts them to DTOs. This
+	 * method prevents circular references in JSON serialization.
+	 * 
+	 * @return A list of VehicleDTO objects representing all vehicles
+	 */
 	public List<VehicleDTO> getAllVehiclesDTO() {
 		return vehicleRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
 	}
 
+	/**
+	 * Retrieves vehicles that match a specific make (manufacturer).
+	 * 
+	 * @param make The vehicle manufacturer to filter by
+	 * @return A list of Vehicle entities with the specified make
+	 */
 	public List<Vehicle> getVehiclesByMake(String make) {
 		return vehicleRepository.findByMake(make);
 	}
 
+	/**
+	 * Retrieves vehicles that match a specific make and converts them to DTOs.
+	 * 
+	 * @param make The vehicle manufacturer to filter by
+	 * @return A list of VehicleDTO objects with the specified make
+	 */
 	public List<VehicleDTO> getVehiclesDTOByMake(String make) {
 		return vehicleRepository.findByMake(make).stream().map(this::convertToDTO).collect(Collectors.toList());
 	}
 
+	/**
+	 * Converts a Vehicle entity to a VehicleDTO. This method transforms the entity
+	 * graph into a flattened DTO structure suitable for API responses, preventing
+	 * circular references.
+	 * 
+	 * @param vehicle The Vehicle entity to convert
+	 * @return A VehicleDTO containing the vehicle data and related entities
+	 */
 	public VehicleDTO convertToDTO(Vehicle vehicle) {
 		VehicleDTO dto = new VehicleDTO();
 		dto.setReg(vehicle.getReg());
@@ -71,6 +114,14 @@ public class VehicleService {
 		return dto;
 	}
 
+	/**
+	 * Creates a new vehicle in the database from DTO data.
+	 * 
+	 * @param vehicleDTO The vehicle data transfer object containing the new vehicle
+	 *                   information
+	 * @return The created Vehicle entity
+	 * @throws IllegalArgumentException if validation fails or rules are violated
+	 */
 	public Vehicle createVehicle(VehicleDTO vehicleDTO) {
 		// Check for not allowed attributes
 		if (vehicleDTO.getOwner() != null) {
@@ -82,8 +133,7 @@ public class VehicleService {
 
 		// Check for id attribute - need to extract it from the JSON
 		// Since VehicleDTO doesn't have an id field, we need to use reflection or
-		// ensure
-		// the id is not in the incoming JSON through controller validation
+		// ensure the id is not in the incoming JSON through controller validation
 
 		// Validate required attributes
 		if (vehicleDTO.getReg() == null || vehicleDTO.getReg().trim().isEmpty()) {
@@ -110,6 +160,15 @@ public class VehicleService {
 		return vehicleRepository.save(vehicle);
 	}
 
+	/**
+	 * Updates a vehicle's assigned mechanic. This method validates that both the
+	 * vehicle and mechanic exist before making the assignment.
+	 * 
+	 * @param reg The registration number of the vehicle to update
+	 * @param mid The mechanic ID to assign to the vehicle
+	 * @return The updated Vehicle entity
+	 * @throws IllegalArgumentException if the vehicle or mechanic doesn't exist
+	 */
 	public Vehicle updateVehicleMechanic(String reg, String mid) {
 		// Check if vehicle with specified reg exists
 		Vehicle vehicle = vehicleRepository.findByReg(reg);
@@ -127,5 +186,4 @@ public class VehicleService {
 		vehicle.setMechanic(mechanic);
 		return vehicleRepository.save(vehicle);
 	}
-
 }
