@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
  * Provides centralized error handling capabilities
  */
 @Injectable({
-  providedIn: 'root', // Makes this service a singleton available throughout the app
+  providedIn: 'root',
 })
 export class ErrorService {
   // Default error message used when no specific message is provided

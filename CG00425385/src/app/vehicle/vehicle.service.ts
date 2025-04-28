@@ -32,23 +32,13 @@ export interface Vehicle {
   };
 }
 
-/**
- * Service for managing vehicle data, including fetching, updating,
- * and handling errors related to vehicle operations
- */
 @Injectable({
-  providedIn: 'root', // Service is provided at the root level
+  providedIn: 'root',
 })
 export class VehicleService {
   private baseUrl = 'http://localhost:8080/api/vehicle'; // API endpoint for vehicle operations
   private selectedVehicleReg: string | null = null; // Stores currently selected vehicle registration
 
-  /**
-   * Constructor injects dependencies needed for the service
-   * @param http - For making HTTP requests to the backend API
-   * @param router - For navigation in case of errors
-   * @param errorService - For centralized error handling
-   */
   constructor(
     private http: HttpClient,
     private router: Router,
