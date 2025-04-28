@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Vehicle, VehicleService } from '../vehicle.service';
 
+/**
+ * Component for updating vehicle mechanic assignments
+ */
 @Component({
   selector: 'app-vehicle-update',
   standalone: true,
@@ -24,7 +27,7 @@ export class VehicleUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // First, check if we have a reg parameter in the URL
+    // Check if we have a reg parameter in the URL
     const reg = this.route.snapshot.paramMap.get('reg');
 
     if (reg) {
@@ -46,19 +49,26 @@ export class VehicleUpdateComponent implements OnInit {
     }
   }
 
+  /**
+   * Fetches vehicle data using the registration number
+   */
   loadVehicle(reg: string): void {
     this.vehicleService.getVehicleByReg(reg).subscribe({
       next: (vehicle) => {
         this.vehicle = vehicle;
+        // Pre-populate mechanic ID if vehicle has one assigned
         if (vehicle.mechanic) {
           this.newMid = vehicle.mechanic.mid;
         }
         this.loading = false;
       },
-      // Error handling is now done in the service
+      // Error handling is done in the service
     });
   }
 
+  /**
+   * Updates the vehicle's assigned mechanic
+   */
   updateVehicle(): void {
     if (!this.vehicle) return;
 
@@ -70,11 +80,13 @@ export class VehicleUpdateComponent implements OnInit {
         next: () => {
           this.router.navigate(['/vehicles']);
         },
-        // The error handling is now happening in the service's handleError method
-        // which will redirect to the error page
+        // Error handling happens in the service's handleError method
       });
   }
 
+  /**
+   * Cancels the operation and returns to vehicles list
+   */
   cancel(): void {
     this.router.navigate(['/vehicles']);
   }

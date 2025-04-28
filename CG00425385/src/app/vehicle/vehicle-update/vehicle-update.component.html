@@ -1,31 +1,40 @@
+<!-- Loading spinner displayed while data is being fetched -->
 <div *ngIf="loading" class="loading">Loading...</div>
 
+<!-- Main container that displays vehicle information when data is loaded -->
 <div *ngIf="!loading && vehicle">
+  <!-- Error message area - displays any error messages from the component -->
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
+  <!-- Vehicle details form section -->
   <div class="vehicle-details">
+    <!-- Read-only field for vehicle registration -->
     <div class="form-group">
       <label>Registration: </label>
       <input [value]="vehicle.reg" readonly class="form-control" />
     </div>
 
+    <!-- Read-only field for vehicle make -->
     <div class="form-group">
       <label>Make: </label>
       <input [value]="vehicle.make" readonly class="form-control" />
     </div>
 
+    <!-- Read-only field for vehicle model -->
     <div class="form-group">
       <label>Model: </label>
       <input [value]="vehicle.model" readonly class="form-control" />
     </div>
 
+    <!-- Read-only field for vehicle owner's name -->
     <div class="form-group">
       <label>Owner: </label>
       <input [value]="vehicle.owner.name" readonly class="form-control" />
     </div>
 
+    <!-- Editable field for mechanic ID with update button -->
     <div class="form-group mechanic-input-group">
       <label for="mechanic">Mechanic ID: </label>
 
@@ -36,9 +45,11 @@
         class="form-control"
         placeholder="Enter mechanic ID"
       />
+      <!-- Button to trigger updateVehicle method to assign the mechanic -->
       <button (click)="updateVehicle()" class="update-button">Update</button>
     </div>
 
+    <!-- Read-only field that shows current assigned mechanic name -->
     <div class="form-group">
       <label>Current Mechanic: </label>
       <input
@@ -48,6 +59,7 @@
       />
     </div>
 
+    <!-- Read-only field that shows garage location of assigned mechanic -->
     <div class="form-group">
       <label>Garage Location: </label>
       <input
@@ -58,6 +70,7 @@
     </div>
   </div>
   <br />
+  <!-- Navigation link to return to home page -->
   <div class="navigation-links">
     <a routerLink="/">Home</a>
   </div>

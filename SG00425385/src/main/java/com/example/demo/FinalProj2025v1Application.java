@@ -1,4 +1,3 @@
-// https://github.com/KyryloKozlovskyi/ADCWA-SpringBoot-Angular
 package com.example.demo;
 
 import org.springframework.boot.SpringApplication;

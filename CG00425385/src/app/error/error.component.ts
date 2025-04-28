@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+// Service for handling application errors
 import { ErrorService } from './error.service';
 
+/**
+ * Component for displaying application errors to users
+ */
 @Component({
   selector: 'app-error',
   standalone: true,
@@ -11,6 +15,7 @@ import { ErrorService } from './error.service';
   styleUrls: ['./error.component.css'],
 })
 export class ErrorComponent implements OnInit {
+  // Properties to store error information
   errorMessage: string = '';
   statusCode: number = 0;
 
@@ -22,6 +27,7 @@ export class ErrorComponent implements OnInit {
     this.statusCode = this.errorService.statusCode;
   }
 
+  // Navigate back to vehicles list
   goBack(): void {
     this.router.navigate(['/vehicles']);
   }

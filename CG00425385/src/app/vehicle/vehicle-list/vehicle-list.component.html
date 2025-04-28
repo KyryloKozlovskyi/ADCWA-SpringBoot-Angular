@@ -1,6 +1,8 @@
+<!-- Basic table to display vehicle information -->
 <table border="1">
   <thead>
     <tr>
+      <!-- Column headers for vehicle properties -->
       <th>Reg</th>
       <th>Make</th>
       <th>Model</th>
@@ -10,20 +12,24 @@
     </tr>
   </thead>
   <tbody>
+    <!-- Iterate through vehicles array using ngFor directive -->
     <tr *ngFor="let v of vehicles">
       <td>{{ v.reg }}</td>
       <td>{{ v.make }}</td>
       <td>{{ v.model }}</td>
       <td>
+        <!-- Display owner information with optional chaining to prevent errors if owner is null -->
         <div>{{ v.owner?.cid }}, {{ v.owner?.name }}</div>
       </td>
       <td>
         <div>
+          <!-- Display mechanic and related garage information with optional chaining -->
           {{ v.mechanic?.mid }}, {{ v.mechanic?.name }},
           {{ v.mechanic?.salary }}, {{ v.mechanic?.garage?.gid }},
           {{ v.mechanic?.garage?.location }}, {{ v.mechanic?.garage?.budget }}
         </div>
       </td>
+      <!-- Update button with click event that passes the vehicle registration number -->
       <td><button (click)="onUpdate(v.reg)">Update</button></td>
     </tr>
   </tbody>
