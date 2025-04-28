@@ -34,13 +34,13 @@ public class MechanicService {
 
 		// Check if mechanic exists
 		if (mechanic == null) {
-			throw new IllegalArgumentException("Mechanic with mid " + mid + " doesn't exist");
+			throw new IllegalArgumentException("Mechanic " + mid + " doesn't exist");
 		}
 
 		// Check if mechanic is servicing any vehicles
 		if (mechanic.getVehicles() != null && !mechanic.getVehicles().isEmpty()) {
-			throw new IllegalArgumentException(
-					"Cannot delete mechanic " + mid + " because they are servicing vehicles");
+			throw new IllegalArgumentException("Mechanic " + mid + " is still servicing vehicles");
+
 		}
 
 		// Delete the mechanic if all checks pass

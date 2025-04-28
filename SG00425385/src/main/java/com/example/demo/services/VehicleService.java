@@ -170,20 +170,20 @@ public class VehicleService {
 	 * @throws IllegalArgumentException if the vehicle or mechanic doesn't exist
 	 */
 	public Vehicle updateVehicleMechanic(String reg, String mid) {
-		// Check if vehicle with specified reg exists
-		Vehicle vehicle = vehicleRepository.findByReg(reg);
-		if (vehicle == null) {
-			throw new IllegalArgumentException("Vehicle " + reg + " doesn't exist");
-		}
+	    // Check if vehicle with specified reg exists
+	    Vehicle vehicle = vehicleRepository.findByReg(reg);
+	    if (vehicle == null) {
+	        throw new IllegalArgumentException("Vehicle " + reg + " doesn't exist");
+	    }
 
-		// Get the mechanic by mid
-		Mechanic mechanic = mechanicRepository.findByMid(mid);
-		if (mechanic == null) {
-			throw new IllegalArgumentException("Mechanic " + mid + " doesn't exist");
-		}
+	    // Get the mechanic by mid
+	    Mechanic mechanic = mechanicRepository.findByMid(mid);
+	    if (mechanic == null) {
+	        throw new IllegalArgumentException("Mechanic " + mid + " doesn't exist");
+	    }
 
-		// Update the vehicle's mechanic
-		vehicle.setMechanic(mechanic);
-		return vehicleRepository.save(vehicle);
+	    // Update the vehicle's mechanic
+	    vehicle.setMechanic(mechanic);
+	    return vehicleRepository.save(vehicle);
 	}
 }

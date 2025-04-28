@@ -57,7 +57,7 @@ export class VehicleService {
           } else {
             // Create a custom error with reg info
             const error = new HttpErrorResponse({
-              error: `Vehicle doesn't ${reg} exist`,
+              error: `Vehicle ${reg} doesn't exist`,
               status: 500,
               url: `${this.baseUrl}/${reg}`,
             });
@@ -95,8 +95,9 @@ export class VehicleService {
 
     // SCENARIO 5.2.1.3: Communication with server lost
     if (error.status === 0) {
-      errorMessage = 'Cannot connect to the server. Please try again later.';
-      statusCode = 503; // Service Unavailable
+      const url = error.url || 'unknown URL';
+      errorMessage = `Http failure response for ${url}: 500 Internal server error`;
+      statusCode = 500;
     }
     // Handle API error responses
     else if (error.error) {
