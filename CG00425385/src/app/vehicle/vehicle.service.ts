@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { ErrorService } from '../error/error.service';
 
 export interface Vehicle {
   reg: string;
@@ -33,7 +34,8 @@ export class VehicleService {
 
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private errorService: ErrorService
   ) {}
 
   getAllVehicles(): Observable<Vehicle[]> {
@@ -93,13 +95,11 @@ export class VehicleService {
       errorMessage = error.message;
     }
     
-    // Navigate to error page
-    this.router.navigate(['/error'], { 
-      queryParams: { 
-        message: errorMessage,
-        status: statusCode
-      }
-    });
+    // Set error details in the service instead of query params
+    this.errorService.setError(errorMessage, statusCode);
+    
+    // Navigate to error page without query parameters
+    this.router.navigate(['/error']);
     
     // Return something for the observable chain
     return throwError(() => error);

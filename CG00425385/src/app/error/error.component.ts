@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { ErrorService } from './error.service';
 
 @Component({
   selector: 'app-error',
@@ -10,24 +11,18 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./error.component.css']
 })
 export class ErrorComponent implements OnInit {
-  errorMessage: string = 'An unknown error occurred';
-  statusCode: number = 500;
+  errorMessage: string = '';
+  statusCode: number = 0;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute
+    private errorService: ErrorService
   ) {}
 
   ngOnInit(): void {
-    // Get error details from route query parameters
-    this.route.queryParams.subscribe(params => {
-      if (params['message']) {
-        this.errorMessage = params['message'];
-      }
-      if (params['status']) {
-        this.statusCode = +params['status'];
-      }
-    });
+    // Get error details from the error service
+    this.errorMessage = this.errorService.errorMessage;
+    this.statusCode = this.errorService.statusCode;
   }
 
   goBack(): void {
