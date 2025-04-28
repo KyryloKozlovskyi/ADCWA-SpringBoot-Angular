@@ -1,5 +1,31 @@
+<!-- Search section at the top of the page -->
+<div class="search-container">
+  <label for="search">Search by Make: </label>
+  <input
+    type="text"
+    id="search"
+    [(ngModel)]="searchTerm"
+    (input)="filterVehicles()"
+    placeholder="Enter vehicle make..."
+    class="search-input"
+  />
+</div>
+
+<!-- Error message display section -->
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<!-- Loading indicator -->
+<div *ngIf="loading" class="loading-indicator">Loading vehicles...</div>
+
+<!-- Message when no vehicles match the search criteria -->
+<div *ngIf="!loading && filteredVehicles.length === 0" class="no-results">
+  No vehicles matching "{{ searchTerm }}" found.
+</div>
+
 <!-- Basic table to display vehicle information -->
-<table border="1">
+<table border="1" *ngIf="!loading && filteredVehicles.length > 0">
   <thead>
     <tr>
       <!-- Column headers for vehicle properties -->
@@ -12,8 +38,8 @@
     </tr>
   </thead>
   <tbody>
-    <!-- Iterate through vehicles array using ngFor directive -->
-    <tr *ngFor="let v of vehicles">
+    <!-- Iterate through filteredVehicles array using ngFor directive -->
+    <tr *ngFor="let v of filteredVehicles">
       <td>{{ v.reg }}</td>
       <td>{{ v.make }}</td>
       <td>{{ v.model }}</td>

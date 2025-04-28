@@ -2,19 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Vehicle, VehicleService } from '../vehicle.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vehicle-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './vehicle-list.component.html',
   styleUrls: ['./vehicle-list.component.css'],
 })
 export class VehicleListComponent implements OnInit {
   vehicles: Vehicle[] = [];
+  filteredVehicles: Vehicle[] = [];
   loading: boolean = true;
   // Error message displayed to users when API calls fail
   errorMessage: string = '';
+  // Search term for filtering
+  searchTerm: string = '';
 
   /**
    * Inject required services:
@@ -45,6 +49,7 @@ export class VehicleListComponent implements OnInit {
       // Success handler - receives vehicle data from API
       next: (data) => {
         this.vehicles = data;
+        this.filteredVehicles = data; // Initialize filtered list with all vehicles
         this.loading = false;
       },
       // Error handler - formats error message for display
@@ -67,5 +72,22 @@ export class VehicleListComponent implements OnInit {
     this.vehicleService.setSelectedVehicleReg(reg);
     // Navigate to the vehicle details page without including reg in URL
     this.router.navigate(['/vehicleDetails']);
+  }
+
+  /**
+   * Filters vehicles based on the search term
+   * This is triggered when the user types in the search input
+   */
+  filterVehicles(): void {
+    if (!this.searchTerm || this.searchTerm.trim() === '') {
+      // If search term is empty, show all vehicles
+      this.filteredVehicles = this.vehicles;
+    } else {
+      // Filter vehicles by make, case-insensitive
+      const term = this.searchTerm.toLowerCase().trim();
+      this.filteredVehicles = this.vehicles.filter((vehicle) =>
+        vehicle.make.toLowerCase().includes(term)
+      );
+    }
   }
 }
