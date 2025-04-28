@@ -1,21 +1,64 @@
 <div *ngIf="loading" class="loading">Loading...</div>
 
 <div *ngIf="!loading && vehicle">
-  <h2>Update Vehicle</h2>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
   <div class="vehicle-details">
-    <p><strong>Registration:</strong> {{ vehicle.reg }}</p>
-    <p><strong>Make:</strong> {{ vehicle.make }}</p>
-    <p><strong>Model:</strong> {{ vehicle.model }}</p>
-    <p><strong>Owner:</strong> {{ vehicle.owner.name }}</p>
-  </div>
+    <div class="form-group">
+      <label>Registration: </label>
+      <input [value]="vehicle.reg" readonly class="form-control" />
+    </div>
 
-  <div class="form-group">
-    <label for="mechanic">Assign Mechanic (ID):</label>
-    <input type="text" id="mechanic" [(ngModel)]="newMid" class="form-control" placeholder="Enter mechanic ID">
-  </div>
+    <div class="form-group">
+      <label>Make: </label>
+      <input [value]="vehicle.make" readonly class="form-control" />
+    </div>
 
-  <div class="button-group">
-    <button (click)="updateVehicle()" class="update-button">Update</button>
-    <button (click)="cancel()" class="cancel-button">Cancel</button>
+    <div class="form-group">
+      <label>Model: </label>
+      <input [value]="vehicle.model" readonly class="form-control" />
+    </div>
+
+    <div class="form-group">
+      <label>Owner: </label>
+      <input [value]="vehicle.owner.name" readonly class="form-control" />
+    </div>
+
+    <div class="form-group mechanic-input-group">
+      <label for="mechanic">Mechanic ID: </label>
+
+      <input
+        type="text"
+        id="mechanic"
+        [(ngModel)]="newMid"
+        class="form-control"
+        placeholder="Enter mechanic ID"
+      />
+      <button (click)="updateVehicle()" class="update-button">Update</button>
+    </div>
+
+    <div class="form-group">
+      <label>Current Mechanic: </label>
+      <input
+        [value]="vehicle.mechanic?.name || 'None'"
+        readonly
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Garage Location: </label>
+      <input
+        [value]="vehicle.mechanic?.garage?.location || 'None'"
+        readonly
+        class="form-control"
+      />
+    </div>
+  </div>
+  <br />
+  <div class="navigation-links">
+    <a routerLink="/">Home</a>
   </div>
 </div>
