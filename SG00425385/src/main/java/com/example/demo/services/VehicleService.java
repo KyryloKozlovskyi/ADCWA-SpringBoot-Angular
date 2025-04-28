@@ -173,13 +173,13 @@ public class VehicleService {
 		// Check if vehicle with specified reg exists
 		Vehicle vehicle = vehicleRepository.findByReg(reg);
 		if (vehicle == null) {
-			throw new IllegalArgumentException("Vehicle reg " + reg + " doesn't exist");
+			throw new IllegalArgumentException("Vehicle " + reg + " doesn't exist");
 		}
 
 		// Get the mechanic by mid
 		Mechanic mechanic = mechanicRepository.findByMid(mid);
 		if (mechanic == null) {
-			throw new IllegalArgumentException("Mechanic with mid " + mid + " doesn't exist");
+			throw new IllegalArgumentException("Mechanic " + mid + " doesn't exist");
 		}
 
 		// Update the vehicle's mechanic

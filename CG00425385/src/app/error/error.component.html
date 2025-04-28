@@ -1,13 +1,21 @@
 <div class="error-container">
   <div class="error-card">
     <div class="error-header">
-      <h2>Error {{statusCode}}</h2>
+      <h2><strong>Error</strong></h2>
     </div>
     <div class="error-body">
-      <p>{{ errorMessage }}</p>
+      <p>
+        <strong>Status: </strong> <strong>{{ statusCode }}</strong>
+      </p>
+      <p>
+        <strong>Message: </strong> <strong>{{ errorMessage }}</strong>
+      </p>
     </div>
     <div class="error-footer">
-      <button (click)="goBack()" class="back-button">Return to Vehicle List</button>
+      <br />
+      <strong
+        ><a [routerLink]="['/vehicles']" class="back-button">Home</a></strong
+      >
     </div>
   </div>
 </div>

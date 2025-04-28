@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ErrorService } from './error.service';
 
 @Component({
   selector: 'app-error',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './error.component.html',
-  styleUrls: ['./error.component.css']
+  styleUrls: ['./error.component.css'],
 })
 export class ErrorComponent implements OnInit {
   errorMessage: string = '';
   statusCode: number = 0;
 
-  constructor(
-    private router: Router,
-    private errorService: ErrorService
-  ) {}
+  constructor(private router: Router, private errorService: ErrorService) {}
 
   ngOnInit(): void {
     // Get error details from the error service
